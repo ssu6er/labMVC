@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RandomChoice</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <main class="container">
+        <header class="page-header">
+            <div>
+                <p class="eyebrow">Losowy wybór bez zbędnego zastanawiania się</p>
+                <h1>RandomChoice</h1>
+            </div>
+            <div id="user-panel" class="user-panel hidden">
+                <span>Witaj, <strong id="current-user-name"></strong></span>
+                <button id="logout-button" class="button button-secondary" type="button">Wyloguj się</button>
+            </div>
+        </header>
+
+        <div id="message" class="message hidden" role="alert"></div>
+
+        <section id="auth-section" class="auth-grid">
+            <article class="card">
+                <h2>Logowanie</h2>
+                <form id="login-form" class="form">
+                    <label>
+                        E-mail
+                        <input id="login-email" type="email" autocomplete="email" required>
+                    </label>
+                    <label>
+                        Hasło
+                        <input id="login-password" type="password" autocomplete="current-password" required>
+                    </label>
+                    <button class="button" type="submit">Zaloguj się</button>
+                </form>
+            </article>
+
+            <article class="card">
+                <h2>Rejestracja</h2>
+                <form id="register-form" class="form">
+                    <label>
+                        Imię
+                        <input id="register-name" type="text" maxlength="100" autocomplete="name" required>
+                    </label>
+                    <label>
+                        E-mail
+                        <input id="register-email" type="email" autocomplete="email" required>
+                    </label>
+                    <label>
+                        Hasło
+                        <input id="register-password" type="password" minlength="6" maxlength="72" autocomplete="new-password" required>
+                    </label>
+                    <button class="button" type="submit">Zarejestruj się</button>
+                </form>
+            </article>
+        </section>
+
+        <section id="app-section" class="hidden">
+            <div class="workspace">
+                <article class="card">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Krok 1</p>
+                            <h2>Kategorie</h2>
+                        </div>
+                    </div>
+                    <form id="category-form" class="inline-form">
+                        <input id="category-name" type="text" maxlength="120" placeholder="Na przykład: Co obejrzeć" required>
+                        <button class="button" type="submit">Dodaj</button>
+                    </form>
+                    <div id="categories-list" class="item-list"></div>
+                </article>
+
+                <article id="options-card" class="card hidden">
+                    <div class="section-heading">
+                        <div>
+                            <p class="eyebrow">Krok 2</p>
+                            <h2 id="selected-category-name">Opcje</h2>
+                        </div>
+                        <button id="random-button" class="button button-accent" type="button">Wylosuj</button>
+                    </div>
+                    <form id="option-form" class="inline-form">
+                        <input id="option-title" type="text" maxlength="200" placeholder="Nowa opcja" required>
+                        <button class="button" type="submit">Dodaj</button>
+                    </form>
+                    <div id="result-box" class="result-box hidden" aria-live="polite">
+                        <span>Twój wybór</span>
+                        <strong id="result-title"></strong>
+                    </div>
+                    <div id="options-list" class="item-list"></div>
+                </article>
+            </div>
+
+            <article class="card history-card">
+                <div class="section-heading">
+                    <div>
+                        <p class="eyebrow">Ostatnie wyniki</p>
+                        <h2>Historia</h2>
+                    </div>
+                    <button id="clear-history-button" class="button button-danger" type="button">Wyczyść</button>
+                </div>
+                <div id="history-list" class="history-list"></div>
+            </article>
+        </section>
+    </main>
+
+    <script src="/static/app.js" defer></script>
+</body>
+</html>
