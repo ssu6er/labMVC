@@ -1,69 +1,113 @@
 # RandomChoice
 
-RandomChoice to prosty projekt edukacyjny MVC, który pomaga użytkownikowi losowo wybrać jedną z wcześniej dodanych opcji.
+RandomChoice to prosta aplikacja internetowa napisana w architekturze MVC. Umożliwia użytkownikowi tworzenie kategorii i opcji, a następnie losowanie jednej aktywnej opcji. Wyniki losowań są zapisywane w historii.
 
-## Funkcje
 
-* rejestracja i logowanie użytkownika;
-* autoryzacja za pomocą JWT;
-* tworzenie i usuwanie kategorii;
-* dodawanie, usuwanie oraz włączanie i wyłączanie opcji;
-* losowanie aktywnej opcji;
-* zapisywanie wyników w historii;
-* oddzielenie danych różnych użytkowników.
+## Funkcjonalności
 
-## Architektura MVC
-
-* **Model** — PostgreSQL, SQLAlchemy 2 i Pydantic 2;
-* **Controller** — FastAPI, obsługa API i kontrola dostępu;
-* **View** — HTML, CSS i JavaScript z Fetch API.
+- rejestracja nowego użytkownika;
+- logowanie za pomocą adresu e-mail i hasła;
+- autoryzacja z użyciem tokenu JWT;
+- wylogowanie przez usunięcie tokenu z `localStorage`;
+- tworzenie i usuwanie kategorii;
+- dodawanie i usuwanie opcji;
+- włączanie i wyłączanie opcji;
+- losowanie jednej aktywnej opcji po stronie backendu;
+- zapisywanie wyniku losowania w historii;
+- wyświetlanie i czyszczenie historii;
+- ochrona danych użytkowników — każdy użytkownik widzi wyłącznie własne kategorie, opcje i historię;
+- polski interfejs użytkownika.
 
 ## Technologie
 
-* Python;
-* FastAPI;
-* PostgreSQL;
-* SQLAlchemy;
-* Pydantic;
-* HTML, CSS i JavaScript;
-* Docker i Docker Compose.
+### Backend
 
-## Uruchomienie
+- Python;
+- FastAPI;
+- SQLAlchemy 2;
+- Pydantic 2;
+- PostgreSQL;
+- JWT;
+- bcrypt.
 
-Skopiuj plik konfiguracyjny:
+### Frontend
 
-```bash
-cp .env.example .env
-```
+- HTML;
+- CSS;
+- JavaScript;
+- Fetch API.
 
-W systemie Windows PowerShell:
+### Infrastruktura
 
-```powershell
-Copy-Item .env.example .env
-```
+- Docker;
+- Docker Compose;
+- Uvicorn.
 
-Uruchom projekt:
+## Architektura MVC
 
-```bash
-docker compose up --build
-```
+Projekt wykorzystuje uproszczony podział MVC:
 
-Aplikacja będzie dostępna pod adresem:
+- **Model** — modele SQLAlchemy, schematy Pydantic i konfiguracja bazy danych;
+- **Controller** — endpointy FastAPI, logowanie, JWT, sprawdzanie dostępu i logika losowania;
+- **View** — interfejs HTML, style CSS oraz JavaScript komunikujący się z API.
 
-```text
-http://localhost:8000
-```
-
-Dokumentacja API:
+Przepływ danych:
 
 ```text
-http://localhost:8000/docs
+Użytkownik → View → Controller → Model → PostgreSQL
+                         ↓
+                    odpowiedź JSON
+                         ↓
+                       View
 ```
 
-## Zatrzymanie projektu
+## Struktura projektu
 
-```bash
-docker compose down
+```text
+Project/
+├── app/
+│   ├── main.py
+│   ├── model/
+│   │   ├── __init__.py
+│   │   ├── database.py
+│   │   ├── entities.py
+│   │   └── schemas.py
+│   ├── controller/
+│   │   ├── __init__.py
+│   │   ├── auth.py
+│   │   └── routes.py
+│   └── view/
+│       ├── index.html
+│       ├── style.css
+│       └── app.js
+├── .env.example
+├── .gitignore
+├── Dockerfile
+├── docker-compose.yml
+├── requirements.txt
+└── README.md
 ```
 
-Plik `.env` nie jest wysyłany do repozytorium. Przykładowa konfiguracja znajduje się w pliku `.env.example`.
+### Odpowiedzialność plików
+
+- `app/main.py` — tworzy aplikację FastAPI, podłącza router, pliki statyczne i tworzy tabele bazy danych;
+- `app/model/database.py` — konfiguracja połączenia z PostgreSQL i sesji SQLAlchemy;
+- `app/model/entities.py` — modele tabel: użytkownik, kategoria, opcja i historia;
+- `app/model/schemas.py` — schematy Pydantic do walidacji danych;
+- `app/controller/auth.py` — haszowanie haseł, tworzenie i sprawdzanie JWT;
+- `app/controller/routes.py` — wszystkie endpointy API i kontrola dostępu;
+- `app/view/index.html` — struktura interfejsu;
+- `app/view/style.css` — wygląd i responsywność aplikacji;
+- `app/view/app.js` — obsługa formularzy, tokenu JWT i komunikacji z API;
+- `Dockerfile` — budowanie obrazu aplikacji;
+- `docker-compose.yml` — uruchamianie aplikacji i PostgreSQL;
+- `requirements.txt` — lista zależności Pythona;
+- `.env.example` — przykładowe zmienne środowiskowe.
+
+
+## Pakiety
+
+Pakiety znajdują się w pliku `requirements.txt`.
+
+
+
